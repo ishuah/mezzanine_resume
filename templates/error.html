@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+{% load pages_tags mezzanine_tags i18n future staticfiles %}
+<head>
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+<meta name="description" content="{% block meta_description %}{% endblock %}">
+<title>Resume | {{ settings.SITE_TITLE }}</title>
+<link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+
+
+{% compress css %}
+<link rel="stylesheet" href="{% static "css/bootstrap-spacelab.css" %}">
+<link rel="stylesheet" href="{% static "css/custom-spacelab.css" %}">
+<link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}">
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" href="{% static "css/rtl.css" %}">
+{% endif %}
+{% block extra_css %}{% endblock %}
+{% endcompress %}
+
+{% compress js %}
+<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/bootstrap-extras.js" %}"></script>
+{% block extra_js %}{% endblock %}
+{% endcompress %}
+<!--[if lt IE 9]>
+<script src="{% static "js/html5shiv.js" %}"></script>
+<![endif]-->
+
+{% block extra_head %}{% endblock %}
+
+</head>
+<body id="{% block body_id %}body{% endblock %}">
+
+<div class="container text-center">
+	<header class="subhead">
+		<h1>{{ error }}</h1>
+	  <hr>
+	  <a href="/resume/">Here's a list of all the resumes</a>
+	</header>
+	
+	
+</div>
+
+{% include "includes/footer_scripts.html" %}
+
+</body>
+</html>

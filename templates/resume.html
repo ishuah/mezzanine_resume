@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}"{% if LANGUAGE_BIDI %} dir="rtl"{% endif %}>
+{% load pages_tags mezzanine_tags i18n future staticfiles %}
+<head>
+
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta name="keywords" content="{% block meta_keywords %}{% endblock %}">
+<meta name="description" content="{% block meta_description %}{% endblock %}">
+<title>Resume | {{ settings.SITE_TITLE }}</title>
+<link rel="shortcut icon" href="{% static "img/favicon.ico" %}">
+
+
+{% compress css %}
+<link rel="stylesheet" href="{% static "css/bootstrap-spacelab.css" %}">
+<link rel="stylesheet" href="{% static "css/custom-spacelab.css" %}">
+<link rel="stylesheet" href="{% static "css/bootstrap-responsive.css" %}">
+{% if LANGUAGE_BIDI %}
+<link rel="stylesheet" href="{% static "css/rtl.css" %}">
+{% endif %}
+{% block extra_css %}{% endblock %}
+{% endcompress %}
+
+{% compress js %}
+<script src="{% static "mezzanine/js/"|add:settings.JQUERY_FILENAME %}"></script>
+<script src="{% static "js/bootstrap.js" %}"></script>
+<script src="{% static "js/bootstrap-extras.js" %}"></script>
+{% block extra_js %}{% endblock %}
+{% endcompress %}
+<!--[if lt IE 9]>
+<script src="{% static "js/html5shiv.js" %}"></script>
+<![endif]-->
+
+{% block extra_head %}{% endblock %}
+
+</head>
+<body id="{% block body_id %}body{% endblock %}">
+
+<div class="container">
+	<header class="subhead">
+		<div class="row">
+		    <div class="span6">
+		      <h1>{{ resume.user.first_name }} {{ resume.user.last_name }}</h1>
+		      <p class="lead">{{ resume.title }}</p>
+		      <p>{{ resume.short_description |richtext_filter|safe }}</p>
+		    </div>
+		    <div class="span6">
+		      <img src="{{ resume.photo.url }}" class="pull-right thumbnail">
+		    </div>
+	  </div>
+	</header>
+<hr/>
+</div>
+
+<div class="container">
+<div class="row">
+	<div class="span3"><h4>Career History</h4></div>
+
+	<div class="span9">
+	   {% for career in career_history %}
+	   <div class="span9">
+	   		<a href="{{ career.link}}"><h5>{{ career.name }}</h5></a>
+	   		<i>{{ career.from_date }} - {% if career.to_date %} {{ career.to_date }} {% else %} Present {% endif %}</i>
+	   		{{ career.description | richtext_filter | safe }}
+	   </div>
+	   {% endfor %}
+	</div>
+
+
+</div>
+<hr />
+	
+<div class="row">
+<div class="span3">
+	<h4>Technical Proficiencies</h4>
+</div>
+<div class="span9">
+	{% for category in skill_category %}
+	<div class="row">
+		<div class="span2">
+		<h5>{{ category.name }}</h5>
+	</div>
+	<div class="span6">
+		{% for skill in skills %}
+		{% if skill.category == category %}
+			<code>{{ skill.name }}</code>
+		{% endif %}
+		{% endfor %}
+	</div>
+	</div>
+	<hr>
+	{% endfor %}
+</div>
+</div>
+<hr>
+
+<!-- <div class="row">
+	<div class="span3">
+		<h4>Projects</h4>
+	</div>
+	<div class="span9">
+		{% for project in projects %}
+		<div class="row">
+			{% if project.image %}
+		<img src="{{ MEDIA_URL }}{% thumbnail project.image 90 90 %}" class="thumbnail pull-left">
+		{% endif %}
+		<div class="span6">
+			<h4>{{ project.title }}</h4>
+			{{ project.description | richtext_filter | safe  }}
+			<a href="{{ project.link }}" target="_blank">View</a>
+		</div>
+		</div>
+		
+		{% endfor%}
+	</div>
+</div> 
+<hr> -->
+
+<div class="row">
+	<div class="span3">
+		<h4>Education</h4>
+	</div>
+	<div class="span9">
+		
+			{% for school in schools %}
+			<div class="span9">
+				<h3>{{ school.qualification_attained }}</h3>
+				<h4>{{ school.title }}</h4>
+				<i>{{ school.year_completed.year }}</i>
+			</div>
+			{% endfor %}
+		
+	</div>
+</div>
+	
+<hr>
+</div>
+
+
+<footer>
+	<div class="container">
+		<b>© {{ resume.user.first_name }} {{ resume.user.last_name }} {% now "Y" %}</b>
+	</div>
+</footer>
+
+
+{% include "includes/footer_scripts.html" %}
+
+</body>
+</html>
